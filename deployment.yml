@@ -1,0 +1,33 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: gintest
+  namespace: default
+  labels:
+    app: gintest
+spec:
+  selector:
+    app: gintest
+  ports:
+  - port: 8000
+    targetPort: 8000
+
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: gintest
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: gintest
+    spec:
+      containers:
+        - name: gintest
+          image: registry.cn-hangzhou.aliyuncs.com/qiudi/gin_test:dev
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
